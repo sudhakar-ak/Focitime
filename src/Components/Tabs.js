@@ -7,6 +7,21 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import TabScrollButton from '@material-ui/core/TabScrollButton';
 import Timer from './Timer';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Zoom from '@material-ui/core/Zoom';
+
+
+const style = {
+  margin: 0,
+  top: 'auto',
+  right: 20,
+  bottom: 20,
+  left: 'auto',
+  position: 'fixed',
+  backgroundColor: '#00ff00'
+};
 
 let scrolling = false;
 const StyledTabs = withStyles({
@@ -76,7 +91,9 @@ class SimpleTabs extends React.Component {
     constructor(){
         super();
         this.state = {
-            value: 0
+            value: 0,
+            toggle:false,
+            duration:0
         }
     }
 
@@ -114,9 +131,18 @@ class SimpleTabs extends React.Component {
         // this.state.value = value;
         this.setState({value:value})
     }
+
+    setToggle = (seconds) =>{
+      this.setState({
+        duration: seconds,
+        toggle: true
+      })
+    }
+
     render () {
         return (
             <div style={{flexGrow: 1}}>
+                            <img style={{position:'absolute'}} src="../../Fociwhite.png" alt="Focitime" width="70" height="70"></img> 
              {/* <div className={classes.demo1}>
             //   <AntTabs value={value} onChange={handleChange} aria-label="ant example">
             //     <AntTab label="Tab 1" />
@@ -134,7 +160,20 @@ class SimpleTabs extends React.Component {
               </StyledTabs>
               <Typography style= {{backgroundColor: '	#008B8B', color: 'white'}}/>
               <TabPanel value={this.state.value} index={0}>
-               <Timer> </Timer>
+              {this.state.toggle?
+                <div style={{justifyContent:'center',display:'flex'}}>
+                  
+              <CountdownCircleTimer size={304}
+    isPlaying
+    duration={this.state.duration}
+    colors={[
+      ['#00ff00', 1]
+    ]}
+  >
+    {({ remainingTime }) => remainingTime}
+  </CountdownCircleTimer>
+  </div> :
+               <Timer setToggle = {this.setToggle}> </Timer> }
                </TabPanel>
               <TabPanel value={this.state.value} index={1}>
               Item Two
@@ -143,6 +182,9 @@ class SimpleTabs extends React.Component {
               Item Three
               </TabPanel>
             </div>
+            <Fab style={style} color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
           </div>
         )
     }

@@ -8,7 +8,7 @@ const TestingPage = styled.div`
   background-color: #000000;
   display: flex;
   flex-direction: column;
-  padding-top: calc(100% - 185vh);
+  // padding-top: calc(100% - 185vh);
   justify-content: center;
   align-items: center;
 `
@@ -97,5 +97,6 @@ export default class Timer extends React.Component {
     const chooseFrom = COLORS.filter(c => c !== this.state.color)
     const color = getRandomColor(chooseFrom)
     this.setState({ color })
+    this.props.setToggle(this.state.duration * 60);
   }
 }
